@@ -11,10 +11,13 @@ import androidx.lifecycle.lifecycleScope
 import com.example.ecommerce.R
 import com.example.ecommerce.data.User
 import com.example.ecommerce.databinding.FragmentRegisterBinding
+import com.example.ecommerce.util.RegisterValidation
 import com.example.ecommerce.util.Resource
 import com.example.ecommerce.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 private val TAG ="RegisterFragment"
@@ -63,6 +66,26 @@ class RegisterFragment:Fragment() {
                         binding.buttonRegister.revertAnimation()
                     }
                     else -> Unit
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.validation.collect{ validation ->
+                if (validation.email is RegisterValidation.Failed){
+                    withContext(Dispatchers.Main){
+                        binding.edEmailRegister.apply {
+                            requestFocus()
+                            error = validation.email.message
+                        }
+                    }
+                }
+                if (validation.password is RegisterValidation.Failed){
+                    withContext(Dispatchers.Main){
+                        binding.edPasswordRegister.apply {
+                            error = validation.password.message
+                        }
+                    }
                 }
             }
         }
