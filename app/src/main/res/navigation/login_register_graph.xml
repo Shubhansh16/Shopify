@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_register_graph"
-    app:startDestination="@id/registerFragment">
+    app:startDestination="@id/introductionFragment">
 
     <fragment
         android:id="@+id/introductionFragment"
@@ -11,7 +11,7 @@
         android:label="IntroductionFragment"
         tools:layout="@layout/fragment_introduction">
         <action
-            android:id="@+id/action_introductionFragment_to_accountOptionsFragment2"
+            android:id="@+id/action_introductionFragment_to_accountOptionsFragment"
             app:destination="@id/accountOptionsFragment" />
     </fragment>
     <fragment
@@ -20,6 +20,7 @@
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
+            app:popUpTo="@id/accountOptionsFragment"
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
     </fragment>
@@ -29,6 +30,7 @@
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register">
         <action
+            app:popUpTo="@id/accountOptionsFragment"
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
