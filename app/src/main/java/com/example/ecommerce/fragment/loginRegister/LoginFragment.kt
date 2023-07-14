@@ -14,6 +14,7 @@ import com.example.ecommerce.R
 import com.example.ecommerce.activities.ShoppingActivity
 import com.example.ecommerce.databinding.FragmentLoginBinding
 import com.example.ecommerce.databinding.FragmentRegisterBinding
+import com.example.ecommerce.dialog.setupBottomSheetDialog
 import com.example.ecommerce.util.Resource
 import com.example.ecommerce.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,6 +48,13 @@ class LoginFragment:Fragment(R.layout.fragment_login) {
                 viewModel.login(email,password)
             }
         }
+
+        binding.tvForgotPasswordLogin.setOnClickListener {
+            setupBottomSheetDialog { email ->
+
+            }
+        }
+
         lifecycleScope.launchWhenStarted {
             viewModel.login.collect{
                 when(it){
