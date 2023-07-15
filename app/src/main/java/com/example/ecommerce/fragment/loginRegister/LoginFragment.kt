@@ -17,6 +17,7 @@ import com.example.ecommerce.databinding.FragmentRegisterBinding
 import com.example.ecommerce.dialog.setupBottomSheetDialog
 import com.example.ecommerce.util.Resource
 import com.example.ecommerce.viewmodel.LoginViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,7 +52,24 @@ class LoginFragment:Fragment(R.layout.fragment_login) {
 
         binding.tvForgotPasswordLogin.setOnClickListener {
             setupBottomSheetDialog { email ->
+              viewModel.resetPassword(email)
+            }
+        }
 
+        lifecycleScope.launchWhenStarted {
+            viewModel.resetPassword.collect{
+                when(it){
+                    is Resource.Loading -> {
+
+                    }
+                    is Resource.Success -> {
+                        Snackbar.make(requireView(),"Reset Link was sent to your email",Snackbar.LENGTH_LONG).show()
+                    }
+                    is Resource.Error -> {
+                        Snackbar.make(requireView(),"Error ${it.message}",Snackbar.LENGTH_LONG).show()
+                    }
+                    else -> Unit
+                }
             }
         }
 
